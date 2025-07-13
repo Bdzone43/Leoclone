@@ -25,30 +25,30 @@ def extract_cc(text):
 async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "⟡ Wᴇʟᴄᴏᴍᴇ 𝗛𝗬𝗣𝗘𝗥 𝗖𝗛𝗘𝗖𝗞𝗘𝗥 ⟡\n\n⟡ 𝗨𝗦𝗔𝗚𝗘 ⟡ \n"
-        "⟡ /lu → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)\n"
-        "⟡ /mlu → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)\n"
+        "⟡ /brx → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)\n"
+        "⟡ /mbrx → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)\n"
         "⟡ /stop ⟶ 𝙎𝙏𝙊𝙋 𝙈𝘼𝙎𝙎 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂",
         parse_mode="Markdown")
         
 async def stop_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    task = context.user_data.get("mlu_task")
+    task = context.user_data.get("mbrx_task")
     if task and not task.done():
         task.cancel()
         await update.message.reply_text("⟡ 𝙈𝘼𝙎𝙎 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂 𝙎𝙏𝙊𝙋𝙋𝙀𝘿 𝘽𝙔 𝙐𝙎𝙀𝙍.")
     else:
         await update.message.reply_text("⟡ 𝙉𝙊 𝘼𝘾𝙏𝙄𝙑𝙀 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂 𝙏𝘼𝙎𝙆 𝙏𝙊 𝙎𝙏𝙊𝙋.")
 
-# === /lu Command ===
-async def lu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# === /brx Command ===
+async def brx_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.message
     raw = ' '.join(context.args) if context.args else msg.reply_to_message.text if msg.reply_to_message else ''
     cc = extract_cc(raw)
 
     if not cc:
-        await msg.reply_text("⟡ 𝗨𝗦𝗘 𝗟𝗜𝗞𝗘 ⟡  \n. ⫷ /lu cc|mm|yy|cvv", parse_mode="Markdown")
+        await msg.reply_text("⟡ 𝗨𝗦𝗘 𝗟𝗜𝗞𝗘 ⟡  \n. ⫷ /brx cc|mm|yy|cvv", parse_mode="Markdown")
         return
 
-    sent = await userbot.send_message(TARGET_BOT, f"/lu {cc}")
+    sent = await userbot.send_message(TARGET_BOT, f"/brx {cc}")
     await msg.reply_text("⟡ 𝗣𝗟𝗘𝗔𝗦𝗘 𝗪𝗔𝗜𝗧 ⟡\n⟡ 𝗖𝗛𝗘𝗖𝗞𝗜𝗡𝗚 𝗬𝗢𝗨𝗥 𝗖𝗖...")
 
     for _ in range(5):
@@ -60,9 +60,9 @@ async def lu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await msg.reply_text("⚠️ 𝗘𝗥𝗥𝗢𝗥: 𝗔𝗣𝗜 𝗙𝗔𝗜𝗟𝗘𝗗")
     
-async def mlu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def mbrx_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message.reply_to_message or not update.message.reply_to_message.document:
-        return await update.message.reply_text("⟡ 𝗥𝗘𝗣𝗟𝗬 ⟡ /mlu 𝗜𝗡 𝗔 .txt 𝗙𝗜𝗟𝗘")
+        return await update.message.reply_text("⟡ 𝗥𝗘𝗣𝗟𝗬 ⟡ /mbrx 𝗜𝗡 𝗔 .txt 𝗙𝗜𝗟𝗘")
 
     file = await update.message.reply_to_message.document.get_file()
     path = await file.download_to_drive()
@@ -108,7 +108,7 @@ async def mlu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         nonlocal approved, declined
         for cc in ccs:
             try:
-                sent = await userbot.send_message(TARGET_BOT, f"/lu {cc}")
+                sent = await userbot.send_message(TARGET_BOT, f"/brx {cc}")
                 result = None
 
                 # Wait for result
@@ -138,7 +138,7 @@ async def mlu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Store task so it can be cancelled
     task = asyncio.create_task(process_ccs())
-    context.user_data["mlu_task"] = task
+    context.user_data["mbrx_task"] = task
 
 # === Startup ===
 async def init_all():
@@ -150,14 +150,14 @@ async def init_all():
 
     app.add_handler(CommandHandler("start", start_cmd))
     app.add_handler(CommandHandler("stop", stop_handler))
-    app.add_handler(CommandHandler("lu", lu_handler))
-    app.add_handler(CommandHandler("mlu", mlu_handler))
+    app.add_handler(CommandHandler("brx", brx_handler))
+    app.add_handler(CommandHandler("mbrx", mbrx_handler))
 
     await app.bot.set_my_commands([
         BotCommand("start", "𝙎𝙏𝘼𝙍𝙏 𝙏𝙃𝙀 𝘽𝗢𝙏"),
         BotCommand("stop", "𝙎𝙏𝙊𝙋 𝙈𝘼𝙎𝙎 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂"),
-        BotCommand("lu", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)"),
-        BotCommand("mlu", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)"),
+        BotCommand("brx", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)"),
+        BotCommand("mbrx", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)"),
     ])
 
     await app.initialize()
