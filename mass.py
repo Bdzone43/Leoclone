@@ -3,11 +3,11 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, BotComm
 from telegram.ext import Application, CommandHandler, ContextTypes
 from pyrogram import Client as UserClient
 
-API_ID = 26038836
-API_HASH = "25f462e2a8517df5014a653c39cc58ca"
-BOT_TOKEN = "8075430688:AAH1nx09RtaxbC6iyp-vhAxeudiOPBJebNE"
+API_ID = 28247126
+API_HASH = "cd2e50ee0d30c1a69fcbc45588b9471b"
+BOT_TOKEN = "8156010715:AAGTy9Pw__sfsFFrb8-6u0MySEu-kcbfgRs"
 SESSION_NAME = "my_account"
-TARGET_BOT = "@dopayu_bot"
+TARGET_BOT = "@Aki_chkbot"
 
 userbot = UserClient(SESSION_NAME, api_id=API_ID, api_hash=API_HASH)
             
@@ -24,31 +24,31 @@ def extract_cc(text):
 # === /start Command ===
 async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "⟡ Wᴇʟᴄᴏᴍᴇ 𝘿𝘼𝙍𝙆 𝘟 𝘾𝙃𝙀𝘾𝙆𝙀𝙍 ⟡\n\n⟡ 𝗨𝗦𝗔𝗚𝗘 ⟡ \n"
-        "⟡ /bt → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)\n"
-        "⟡ /mbt → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)\n"
+        "⟡ Wᴇʟᴄᴏᴍᴇ 𝗛𝗬𝗣𝗘𝗥 𝗖𝗛𝗘𝗖𝗞𝗘𝗥 ⟡\n\n⟡ 𝗨𝗦𝗔𝗚𝗘 ⟡ \n"
+        "⟡ /lu → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)\n"
+        "⟡ /mlu → 𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)\n"
         "⟡ /stop ⟶ 𝙎𝙏𝙊𝙋 𝙈𝘼𝙎𝙎 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂",
         parse_mode="Markdown")
         
 async def stop_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    task = context.user_data.get("mbt_task")
+    task = context.user_data.get("mlu_task")
     if task and not task.done():
         task.cancel()
         await update.message.reply_text("⟡ 𝙈𝘼𝙎𝙎 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂 𝙎𝙏𝙊𝙋𝙋𝙀𝘿 𝘽𝙔 𝙐𝙎𝙀𝙍.")
     else:
         await update.message.reply_text("⟡ 𝙉𝙊 𝘼𝘾𝙏𝙄𝙑𝙀 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂 𝙏𝘼𝙎𝙆 𝙏𝙊 𝙎𝙏𝙊𝙋.")
 
-# === /bt Command ===
-async def bt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# === /lu Command ===
+async def lu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.message
     raw = ' '.join(context.args) if context.args else msg.reply_to_message.text if msg.reply_to_message else ''
     cc = extract_cc(raw)
 
     if not cc:
-        await msg.reply_text("⟡ 𝗨𝗦𝗘 𝗟𝗜𝗞𝗘 ⟡  \n. ⫷ /bt cc|mm|yy|cvv", parse_mode="Markdown")
+        await msg.reply_text("⟡ 𝗨𝗦𝗘 𝗟𝗜𝗞𝗘 ⟡  \n. ⫷ /lu cc|mm|yy|cvv", parse_mode="Markdown")
         return
 
-    sent = await userbot.send_message(TARGET_BOT, f"/bt {cc}")
+    sent = await userbot.send_message(TARGET_BOT, f"/lu {cc}")
     await msg.reply_text("⟡ 𝗣𝗟𝗘𝗔𝗦𝗘 𝗪𝗔𝗜𝗧 ⟡\n⟡ 𝗖𝗛𝗘𝗖𝗞𝗜𝗡𝗚 𝗬𝗢𝗨𝗥 𝗖𝗖...")
 
     for _ in range(5):
@@ -60,9 +60,9 @@ async def bt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await msg.reply_text("⚠️ 𝗘𝗥𝗥𝗢𝗥: 𝗔𝗣𝗜 𝗙𝗔𝗜𝗟𝗘𝗗")
     
-async def mbt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def mlu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message.reply_to_message or not update.message.reply_to_message.document:
-        return await update.message.reply_text("⟡ 𝗥𝗘𝗣𝗟𝗬 ⟡ /mbt 𝗜𝗡 𝗔 .txt 𝗙𝗜𝗟𝗘")
+        return await update.message.reply_text("⟡ 𝗥𝗘𝗣𝗟𝗬 ⟡ /mlu 𝗜𝗡 𝗔 .txt 𝗙𝗜𝗟𝗘")
 
     file = await update.message.reply_to_message.document.get_file()
     path = await file.download_to_drive()
@@ -71,13 +71,13 @@ async def mbt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         raw_lines = f.readlines()
     os.remove(path)
 
-    # Extract valid CCs (max 1000)
+    # Extract valid CCs (max 2000)
     ccs = []
     for line in raw_lines:
         cc = extract_cc(line)
         if cc:
             ccs.append(cc)
-        if len(ccs) == 1000:
+        if len(ccs) == 2000:
             break
 
     total = len(ccs)
@@ -108,7 +108,7 @@ async def mbt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         nonlocal approved, declined
         for cc in ccs:
             try:
-                sent = await userbot.send_message(TARGET_BOT, f"/bt {cc}")
+                sent = await userbot.send_message(TARGET_BOT, f"/lu {cc}")
                 result = None
 
                 # Wait for result
@@ -138,7 +138,7 @@ async def mbt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Store task so it can be cancelled
     task = asyncio.create_task(process_ccs())
-    context.user_data["mbt_task"] = task
+    context.user_data["mlu_task"] = task
 
 # === Startup ===
 async def init_all():
@@ -150,14 +150,14 @@ async def init_all():
 
     app.add_handler(CommandHandler("start", start_cmd))
     app.add_handler(CommandHandler("stop", stop_handler))
-    app.add_handler(CommandHandler("bt", bt_handler))
-    app.add_handler(CommandHandler("mbt", mbt_handler))
+    app.add_handler(CommandHandler("lu", lu_handler))
+    app.add_handler(CommandHandler("mlu", mlu_handler))
 
     await app.bot.set_my_commands([
         BotCommand("start", "𝙎𝙏𝘼𝙍𝙏 𝙏𝙃𝙀 𝘽𝗢𝙏"),
         BotCommand("stop", "𝙎𝙏𝙊𝙋 𝙈𝘼𝙎𝙎 𝘾𝙃𝙀𝘾𝙆𝙄𝙉𝙂"),
-        BotCommand("bt", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)"),
-        BotCommand("mbt", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)"),
+        BotCommand("lu", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙎𝙄𝙉𝙂𝙇𝙀)"),
+        BotCommand("mlu", "𝘽𝙍𝘼𝙄𝙉𝙏𝙍𝙀𝙀 𝘼𝙐𝙏𝙃 (𝙈𝘼𝙎𝙎)"),
     ])
 
     await app.initialize()
